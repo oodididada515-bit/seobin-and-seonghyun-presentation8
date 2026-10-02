@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사회 발표자료 - 브라질 열대 기후</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #f1f5f9;
+  }
+
+  #presentation {
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  header {
+    height: 60px;
+    padding: 0 24px;
+    background: #ffffff;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  header .title {
+    font-size: 44px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  header .author {
+    font-size: 32px;
+    font-weight: 700;
+    color: #15803d;
+    background: #dcfce7;
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+
+  main {
+    flex: 1;
+    position: relative;
+    overflow:hidden;
+ }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 30px 50px;
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    background: #ffffff;
+  }
+
+  .slide.active {
+    display: flex;
+  }
+
+  h2 {
+    font-size: 64px;
+    font-weight: 800;
+    color: #15803d;
+    border-bottom: 3px solid #e2e8f0;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .content-grid {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .col-text {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .col-img {
+    flex: 0.8;
+    width: 100%;
+    height: 100%;
+    max-height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #cbd5e1;
+    background-color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .col-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .big-title {
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #0f172a;
+  }
+
+  .accent { color: #15803d; }
+
+  p {
+    font-size: 44px;
+    color: #334155;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .info-box {
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 18px 22px;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.5;
+  }
+
+  .price-card {
+    background: #f0fdf4;
+    border: 3px solid #16a34a;
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .price-amount {
+    font-size: 104px;
+    font-weight: 900;
+    color: #15803d;
+    margin: 8px 0;
+  }
+
+  .quiz-btn {
+    width: 100%;
+    text-align: left;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 40px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.2s;
+  }
+
+  .quiz-btn:hover {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  .quiz-btn.correct {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    border-color: #dc2626 !important;
+  }
+
+  #quiz-result {
+    display: none;
+    padding: 16px;
+    background: #f0fdf4;
+    border: 2px solid #bbf7d0;
+    color: #16a34a;
+    font-weight: 800;
+    font-size: 40px;
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+
+  footer {
+    height: 70px;
+    background: #f8fafc;
+    border-top: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    flex-shrink: 0;
+  }
+
+  .nav-btn {
+    background: #15803d;
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 40px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .nav-btn:hover { background: #166534; }
+  .nav-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+  .page-indicator {
+    font-size: 40px;
+    font-weight: 800;
+    color: #475569;
+  }
+
+  /* 📱 모바일 디바이스 완벽 풀스크린 적용 */
+  @media (max-width: 768px) {
+    header {
+      padding: 0 16px;
+      height: 48px;
+    }
+    header .title { font-size: 30px; }
+    header .author { font-size: 24px; padding: 2px 10px; }
+
+    .slide {
+      padding: 16px;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-size: 36px;
+      padding-bottom: 4px;
+    }
+
+    .content-grid {
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .col-text {
+      gap: 10px;
+      width: 100%;
+    }
+
+    .col-img {
+      width: 100%;
+      height: 180px;
+      max-height: 180px;
+      flex-shrink: 0;
+    }
+
+    .big-title { font-size: 44px; }
+    p { font-size: 28px; line-height: 1.4; }
+    .info-box { font-size: 28px; padding: 10px 12px; }
+    .price-card { padding: 12px; }
+    .price-amount { font-size: 64px; margin: 4px 0; }
+    .quiz-btn { font-size: 26px; padding: 10px 12px; margin-bottom: 6px; }
+    #quiz-result { font-size: 26px; padding: 10px; }
+
+    footer {
+      height: 54px;
+      padding: 0 16px;
+    }
+    .nav-btn { font-size: 28px; padding: 8px 16px; }
+    .page-indicator { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="presentation">
+  <header>
+    <div class="title">사회 발표자료</div>
+    <div class="author">발표자: 이승현, 이서빈</div>
+  </header>
+
+  <main>
+    <!-- 1쪽: 표지 -->
+    <div class="slide active">
+      <div class="content-grid">
+        <div class="col-text">
+          <div style="color:#15803d; font-weight:800; font-size:32px;">[1쪽: 표지]</div>
+          <div class="big-title">
+            
+            <span class="accent">브라질 아마존 정글 &amp; 카카오 체험 패키지</span>
+          </div>
+          <p>브라질의 울창한 열대우림을 탐험하고 열대 작물을 체험하는 특별한 여행 상품입니다.</p>
+          <div class="info-box" style="background:#f0fdf4; border-color:#bbf7d0;">
+            👤 <b>발표자</b>: 이승현, 이서빈
+          </div>
+        </div>
+        <div class="col-img">
+          <!-- 브라질 아마존 지도 및 전경 -->
+          <img src="https://img.seoul.co.kr/img/upload/2018/10/10/SSI_20181010171657_O2.jpg" alt="아마존 전경">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2쪽: 기후 체험 주제 소개 -->
+    <div class="slide">
+      <h2>[2쪽] 기후 체험 주제 소개</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <div class="info-box" style="background:#fef3c7; border-color:#fde68a; color:#b45309;">
+            🌴 <b>열대 기후</b>의 <b>아마존 정글과 플랜테이션 농장</b>을 체험하는 상품
+          </div>
+          <p>1년 내내 덥고 비가 많이 내리는 브라질의 대표 기후인 <b>열대 기후</b> 환경과 자연 생태계를 직접 느껴보는 체험 상품입니다.</p>
+        </div>
+        <div class="col-img">
+          <!-- 브라질 열대우림 기후 -->
+          <img src="https://i.namu.wiki/i/uTHgLFnUQBDRqoyk4pxXCveYr8xUypy5B0dX4vktd4iY8gv6BDFAzvO7USMKWwrGS-4DdMxoE_c4JWgAE8aWfg.webp" alt="열대 우림 기후">
+        </div>
+      </div>
+    </div>
+
+    <!-- 3쪽: 체험 1 - 아마존 강 보트 탐험 -->
+    <div class="slide">
+      <h2>[3쪽] 주요 체험 ① - 아마존 강 보트 탐험</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <div class="info-box" style="background:#e0f2fe; border-color:#38bdf8; color:#0369a1;">
+            🛶 <b>아마존 강 보트 탐험</b>
+          </div>
+          <p>세계에서 가장 큰 열대우림인 아마존 강의 지류를 전문 가이드와 함께 보트를 타고 탐험합니다.</p>
+          <p>빽빽하게 들어선 거대한 나무들과 열대우림 속 다양한 희귀 동식물을 가까이서 관찰할 수 있습니다.</p>
+        </div>
+        <div class="col-img">
+          <!-- 실제 아마존 강 보트 탐험 사진 -->
+          <img src="https://images.unsplash.com/photo-1744918409575-515d9e5286bf?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="아마존 강 보트">
+        </div>
+      </div>
+    </div>
+
+    <!-- 4쪽: 체험 2 - 카카오 농장 체험 -->
+    <div class="slide">
+      <h2>[4쪽] 주요 체험 ② - 카카오 &amp; 커피 농장 체험</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <div class="info-box" style="background:#fef3c7; border-color:#fde68a; color:#92400e;">
+            🍫 <b>카카오 &amp; 커피 플랜테이션</b>
+          </div>
+          <p>열대 기후에서 활발하게 이루어지는 플랜테이션 농업을 경험합니다.</p>
+          <p>카카오 열매를 직접 따보고, 초콜릿이 만들어지는 과정 체험과 싱싱한 원두로 내린 음료를 시식합니다.</p>
+        </div>
+        <div class="col-img">
+          <!-- 실제 나무에 달린 카카오 열매 사진 -->
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp4x_jQ990LdCMMJCaNYu7FHy4j5MbmCk4ME7z4iXXvvpjLCRZPAi6TJJ9&s=10" alt="카카오 열매">
+        </div>
+      </div>
+    </div>
+
+    <!-- 5쪽: 체험 3 - 쿨링 스마트 조끼 대여 -->
+    <div class="slide">
+      <h2>[5쪽] 특수 서비스 - 쿨링 스마트 조끼 대여</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <div class="info-box" style="background:#f0fdf4; border-color:#86efac; color:#166534;">
+            🎽 <b>쿨링 스마트 조끼 대여 서비스</b>
+          </div>
+          <p>고온 다습한 열대 기후에서도 쾌적하게 여행할 수 있도록 냉각 팬과 수분 조절 장치가 달린 최첨단 쿨링 조끼를 대여해 드립니다.</p>
+          <p>더위에 지치지 않고 정글 및 농장 체험에 전념할 수 있는 맞춤형 서비스입니다.</p>
+        </div>
+        <div class="col-img">
+          <!-- 쿨링 스마트 베스트/조끼 사진 -->
+          <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80" alt="아웃도어 웨어 조끼">
+        </div>
+      </div>
+    </div>
+
+    <!-- 6쪽: 1인당 상품 가격 -->
+    <div class="slide">
+      <h2>[6쪽] 1인당 상품 가격</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <div class="price-card">
+            <div style="font-size:44px; font-weight:800; color:#475569;">1인당 체험 및 투어 가격</div>
+            <div class="price-amount">1,250,000원</div>
+            <p style="font-size:36px;">(가이드 비용, 정글 보트 이용료, 카카오 시식, 쿨링 조끼 포함)</p>
+          </div>
+          <div class="info-box">
+            💡 <b>학생 단체 할인</b>: 10인 이상 신청 시 <b>990,000원</b> 적용
+          </div>
+        </div>
+        <div class="col-img">
+          <!-- 여행 티켓 및 가이드북 -->
+          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80" alt="여행 패키지 티켓">
+        </div>
+      </div>
+    </div>
+
+    <!-- 7쪽: 확인 퀴즈 -->
+    <div class="slide">
+      <h2>[7쪽] 확인 퀴즈</h2>
+      <div class="content-grid">
+        <div class="col-text">
+          <p style="color:#0f172a; font-weight:800; margin-bottom:12px; font-size:48px;">
+            Q. 브라질의 '열대 기후' 특징으로 올바르지 않은 것은?
+          </p>
+          <button class="quiz-btn" onclick="checkAnswer(this, false)">1. 1년 내내 날씨가 덥고 습하다.</button>
+          <button class="quiz-btn" onclick="checkAnswer(this, false)">2. 세계적인 아마존 열대 우림이 존재한다.</button>
+          <button class="quiz-btn" onclick="checkAnswer(this, true)">3. 1년 내내 눈이 내리고 얼음이 얼어붙는다.</button>
+          <button class="quiz-btn" onclick="checkAnswer(this, false)">4. 커피와 카카오 같은 작물이 잘 자란다.</button>
+          <div id="quiz-result">정답입니다! 👏 브라질 열대 기후는 덥고 비가 오며 눈이 내리지 않습니다.</div>
+        </div>
+        <div class="col-img">
+          <!-- 퀴즈 그래픽 사진 -->
+          <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=800&q=80" alt="퀴즈 시험">
+        </div>
+      </div>
+    </div>
+
+    <!-- 8쪽: 감사인사 -->
+    <div class="slide">
+      <div class="content-grid">
+        <div class="col-text" style="text-align: center; align-items: center;">
+          <div style="font-size: 104px; font-weight: 900; color: #15803d; margin-bottom: 16px;">
+            Obrigado!<br>(감사합니다) 🙏
+          </div>
+          <p style="font-size: 52px; font-weight: 700; color: #334155;">
+            경청해 주셔서 감사합니다.
+          </p>
+          <div class="info-box" style="margin-top: 20px; width: 100%; background: #f0fdf4; border-color: #bbf7d0; text-align: center;">
+            ❓ 질문이 있으시면 질문해 주세요! (Q&amp;A)
+          </div>
+        </div>
+        <div class="col-img">
+          <!-- Q&A 및 마무리 이미지 -->
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="발표 마무리">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">◀ 이전</button>
+    <div class="page-indicator" id="pageIndicator">1 / 8</div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">다음 ▶</button>
+  </footer>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageIndicator = document.getElementById('pageIndicator');
+
+  function updateSlide() {
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === currentSlide);
+    });
+
+    pageIndicator.innerText = `${currentSlide + 1} / ${slides.length}`;
+    prevBtn.disabled = (currentSlide === 0);
+    
+    if (currentSlide === slides.length - 1) {
+      nextBtn.innerText = '발표 완료 ✔';
+    } else {
+      nextBtn.innerText = '다음 ▶';
+    }
+  }
+
+  function changeSlide(direction) {
+    currentSlide += direction;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+    updateSlide();
+  }
+
+  function checkAnswer(btn, isCorrect) {
+    const buttons = document.querySelectorAll('.quiz-btn');
+    buttons.forEach(b => b.classList.remove('correct'));
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      document.getElementById('quiz-result').style.display = 'block';
+    } else {
+      alert('다시 생각해보세요!');
+    }
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  updateSlide();
+</script>
+
+</body>
+</html>
